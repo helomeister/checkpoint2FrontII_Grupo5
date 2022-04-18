@@ -1,38 +1,41 @@
-//Capturando os campos do formulário
-let campoEmailLogin = document.getElementById('inputEmail');
-let campoSenhaLogin = document.getElementById('inputPassword');
-let botaoSalvar = document.getElementById('botaoSalvar');
+/*Capturando os campos do formulário*/
 
-let campoEmailLoginNormalizado;
-let campoSenhaLoginNormalizado;
+let emailLoginNormalizado;
+let passwordLoginNormalizado;
 
 let emailEValido = false;
-let senhaEValido = false;
+let passwordEValido = false;
 
-//Desabilita o botão ao iniciar a página
+let emailLogin = document.getElementById('inputEmail');
+let passwordLogin = document.getElementById('inputPassword');
+let botaoSalvar = document.getElementById('botaoSalvar');
+/*Desabilita o botão ao iniciar a página*/
+
 botaoSalvar.setAttribute('disabled', true);
-botaoSalvar.innerText = "Bloqueado"
+botaoSalvar.innerText = "Bloqueado";
 
-//Cria o objeto que representa o login do usuário
+/*Cria o objeto que representa o login do usuário*/
+
 const usuarioObjeto = {
-    email: "",
-    senha: ""
+    email: " ",
+    password: " "
 }
 
 //Executa ao clicar no botão de Acessar
 botaoSalvar.addEventListener('click', function(evento) {
 
-    //Se a validação passar, se for true o retorno da função....
+    //Se a validação passar, se for true o retorno da função//
+
     if (validaTelaDeLogin()) {
         //Normalizando - Retirando os espaços em branco
-        campoEmailLoginNormalizado = retiraEspacosDeUmValorInformado(campoEmailLogin.value);
-        campoSenhaLoginNormalizado = retiraEspacosDeUmValorInformado(campoSenhaLogin.value);
+        emailLoginNormalizado = retiraEspacosDeUmValorInformado(emailLogin.value);
+        passwordLoginNormalizado = retiraEspacosDeUmValorInformado(passwordLogin.value);
 
-        campoEmailLoginNormalizado = converteValorRecebidoEmMinusculo(campoEmailLoginNormalizado);
+        emailLoginNormalizado = converteValorRecebidoEmMinusculo(emailLoginNormalizado);
 
         //Atribui as variáveis normalizadas ao objeto do login
-        usuarioObjeto.email = campoEmailLoginNormalizado;
-        usuarioObjeto.senha = campoSenhaLoginNormalizado;
+        usuarioObjeto.email = emailLoginNormalizado;
+        usuarioObjeto.password = passwordLoginNormalizado;
 
         console.log(usuarioObjeto);
 
@@ -41,56 +44,120 @@ botaoSalvar.addEventListener('click', function(evento) {
         evento.preventDefault();
         alert("Ambas as informações devem ser preenchidas");
     }
-
 });
 
 //Ao clicar e interagir com o campo de "email" no formulário
-campoEmailLogin.addEventListener('blur', function() {
+
+emailLogin.addEventListener('blur', function() {
     //Capturando o elemento <Small> do html
     let emailValidacao = document.getElementById('emailValidacao');
-    let senhaValidacao = document.getElementById('senhaValidacao');
 
-    if (campoEmailLogin.value != "") {
-        //Email tem informação
-        emailValidacao.innerText = ""
-        campoEmailLogin.style.border = ``
+    if (emailLogin.value != " ") {
+        //Email tem alguma informação
+        emailValidacao.innerText = " ";
         emailEValido = true;
     } else {
         //Email está vazio
-        emailValidacao.innerText = "Campo obrigatório"
-        emailValidacao.style.color = "#E01E1E"
-        emailValidacao.style.fontSize = "8"
-        emailValidacao.style.fontWeight = "bold"
-        campoEmailLogin.style.border = `1px solid #E01E1E`
+        emailValidacao.innerText = "Campo obrigatório";
+        emailValidacao.style.color = "#E01E1E";
+        emailValidacao.style.fontSize = "10"
+        emailValidacao.style.fontWeight = "italic"
+        emailLogin.style.border = `2px solid #E01E1E`
         emailEValido = false;
     }
-    if (campoSenhaLogin.value != "") {
-        //Senha tem informação
-        senhaValidacao.innerText = ""
-        campoSenhaLogin.style.border = ``
-        senhaEValido = true;
+
+    /* Incluir metodo regex verificar caracteres do email se são validos. Email tem caracteres especificos e preenchidos corretamente
+     */
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailLogin.value)) {
+        emailValidacao.innerText = " ";
+        emailLogin.style.backgroundColor = "blue";
+        emailEValido = true;
     } else {
-        //senha está vazio
-        senhaValidacao.innerText = "Campo obrigatório"
-        senhaValidacao.style.color = "#E01E1E";
-        senhaValidacao.style.fontSize = "8"
-        senhaValidacao.style.fontWeight = "bold"
-        campoSenhaLogin.style.border = `1px solid #E01E1E`
-        senhaEValido = false;
+        /*Email esta com preenchimento incorreto conforme padrão Regex*/
+        emailValidacao.innerText = "O Email não é Válido";
+        emailValidacao.style.color = "#E05E";
+        emailValidacao.style.fontSize = "10";
+        emailValidacao.style.fontWeight = "italic";
+        emailLogin.style.border = `2 px solid #D01F8E`;
+        emailEValido = false;
     }
+   
     validaTelaDeLogin();
 });
 
+
+//implementando metodo blur -Validação da Senha
+
+passwordLogin.addEventListener('blur', function() {
+        let passwordValidacao = document.getElementById('passwordValidacao');
+        //Incluimos o elemento  <Small> do html e capturamos o mesmo
+        if (passwordLogin.value != " ") {
+            //Senha é diferente de vazio
+            passwordValidacao.innerText = " ";
+            passwordEValido = true;
+        } else {
+            //senha está vazio
+            passwordValidacao.innerText = "Senha obrigatória"
+            passwordLogin.style.backgroundColor = "blue";
+            passwordValidacao.style.color = "#E05E"
+            passwordValidacao.style.fontSize = "12"
+            passwordValidacao.style.fontWeight = "italic"
+            passwordLogin.style.border = `
+                    2 px solid# D01F8E `
+            passwordEValido = false;
+        }
+
+        if (passwordLogin.value != "" && passwordLogin.value.lenght <= 8) {
+            //Senha tem informação
+            botaoSalvar.setAttribute('disable', true);
+            passwordValidacao.innerText = "";
+            passwordLogin.style.border = "blue";
+            passwordEValido = true;
+        } else {
+            //senha está vazio
+            botaoSalvar.removeAttribute('disable');
+            passwordValidacao.innerText = "Campo obrigatório";
+            passwordValidacao.style.color = "#E01E1E";
+            passwordValidacao.style.fontSize = "8";
+            passwordValidacao.style.fontWeight = "bold"
+            passwordLogin.style.border = `1 px solid# E01E1E `
+            passwordEValido = false;
+        }
+
+    validaTelaDeLogin();
+    });
+
+        /*Incluir método regex para validação de senha: -
+        pelo menos 8 caracteres -
+        deve conter pelo menos 1 letra maiúscula, 1 letra minúscula e 1 número -
+        Pode conter caracteres especiais
+
+        if (/^?=.\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(passwordValidacao.value)) {
+            passwordValidacao.innerText = " ";
+            passwordEValido = true;
+        } else {
+
+            /*Senha esta com preenchimento incorreto conforme padrão Regex*/
+/*passwordValidacao.style.fontWeight = "italic";
+passwordValidacao.style.color = "#E05E";
+passwordValidacao.style.fontSize = "10";
+passwordValidacao.innerText = ("A senha não é Válido,favor digitar : pelo menos 8 caracteres, deve conter pelo menos 1 letra maiúscula,1 letra minúscula e 1 número, Pode conter caracteres especiais ");
+campoPasswordLogin.style.border = `
+                    2 px solid# D01F8E `;
+passwordEValido = false;
+
+}
+validaTelaDeLogin();
+); */
+
 function validaTelaDeLogin() {
-    if (emailEValido && senhaEValido) {
+    if (emailEValido && passwordEValido) {
         botaoSalvar.removeAttribute('disabled')
-        botaoSalvar.innerText = "Acessar"
-        return true
-    } 
-      else {
+        botaoSalvar.innerText = "Acessar";
+        return true;
+    } else {
         botaoSalvar.setAttribute('disabled', true);
-        botaoSalvar.innerText = "Bloqueado"
-        return false
+        botaoSalvar.innerText = "Bloqueado";
+        return false;
     }
-    
 }
