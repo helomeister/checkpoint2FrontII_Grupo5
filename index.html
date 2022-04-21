@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +16,6 @@
     <!-- ---------------------- lógica aplicada no login ----------------------- -->
 </head>
 
-
 <body>
     <div class="left">
         <img src="./assets/pessoa-login.png" alt="">
@@ -29,18 +26,20 @@
             <div class="form-header">
                 <p>To-Do App</p>
             </div>
+
             <h1>Acessar</h1>
-            <label>
-                 Email:
-                <input id="inputEmail" type="text">
-                <small id="emailValidacao"></small>
-            </label>
 
             <label>
-                Password:
-                <input id="inputPassword" type="password">
-                <small id="passwordValidacao"></small>
-            </label>
+        Email:
+        <input id="inputEmail" type="text">
+        <small id="emailValidacao"></small>
+      </label>
+
+            <label>
+        Senha:
+        <input id="inputPassword" type="password">
+        <small id="passwordValidacao"></small>
+      </label>
 
             <button id="botaoSalvar" type="submit">Acessar</button>
         </form>
@@ -49,17 +48,22 @@
             <a href="signup.html">Não possui conta? Crie agora mesmo</a>
         </div>
     </div>
-
-    <script src="/scripts/validacoes/utils.js"></script>
-    <script src="/scripts/login/index.js"></script>
-
-    <footer class="navbar-container fixed-bottom" ">
+    <footer class="navbar-container fixed-bottom">
         <nav class="nav nav-pills flex-column flex-sm-row ">
-          <a class="flex-sm-fill text-sm-center nav-link " href="https://github.com/NandaMagal " target="_blank ">Fernanda</a>
-          <a class="flex-sm-fill text-sm-center nav-link " href="https://github.com/helomeister " target="blank ">Heloísa</a>
-          <a class="flex-sm-fill text-sm-center nav-link " href="https://github.com/mpederiva " target="blank ">Marta</a>
+            <a class="flex-sm-fill text-sm-center nav-link " href="https://github.com/NandaMagal" target="blank">Fernanda</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="https://github.com/helomeister" target="blank">Heloísa</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="https://github.com/mpederiva" target="blank">Marta</a>
         </nav>
     </footer>
+    <!-- 
+    <script src="/scripts/API/post.js "></script>
+    <script src="/scripts/API/get.js "></script>
+    <script src="/scripts/API/put.js "></script>
+    <script src="/scripts/API/delete.js "></script>
+    -->
+    <script src="/scripts/validacoes/utils.js "></script>
+    <script src="/scripts/login/index.js "></script>
+    <script src="/scripts/login/loaders.js "></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap%27);
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap');
 :root {
     --primary: #7898FF;
     --secondary: #8E64C5;
@@ -27,11 +27,9 @@ button {
     cursor: pointer;
 }
 
-
 /* Footer ----------------------------------------------------------- */
-
-footer {
-    bottom: 0 fixed;
+footer{
+    bottom:0 fixed;
     display: grid;
     width: 100%;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -39,9 +37,9 @@ footer {
     padding: 0 3em;
 }
 
-footer nav a {
+footer nav a{
     text-transform: uppercase;
     color: #ffffff;
     text-decoration: none;
     font-size: x-small;
-}
+  }

@@ -1,185 +1,191 @@
-let Identificador = document.getElementById('inputId');
-let Nome = document.getElementById('inputName');
-let Sobrenome = document.getElementById('inputLastName')
-let apelido = document.getElementById('inputApelido');
-let email = document.getElementById('inputEmailCadastro');
-let password = document.getElementById('inputPassword');
+//captura dos elementos//
+let nome = document.getElementById('inputName');
+let sobrenome = document.getElementById('inputLastName')
+let email = document.getElementById('inputEmail');
+let senha = document.getElementById('inputPassword');
 let repetirSenha = document.getElementById('inputRepeatPassword');
-let botaoCadastro = document.getElementById('botaoCadastro');
+let cadastrar = document.getElementById('botaoCadastro');
+let nomeValido = false;
+let sobrenomeValido = false;
+let emailCadastroValido = false;
+let passwordCadastroValido = false;
+let repetirPasswordValido = false;
 
-let nomeCadastroNormalizado;
-let apelidoCadastroNormalizado;
-let emailCadastroNormalizado;
-let passwordCadastroNormalizado;
+/*Desabilita o botão  de validação da senha e do cadastro ao iniciar a página*/
 
-let nomeEValido = false;
-let apelidoEValido = false;
-let emailCadastroEValido = false;
-let passwordCadastroEvalido = false;
 
-botaoCadastro.setAttribute('disabled', true);
-botaoCadastro.innerText = "Bloqueado"
+cadastrar.setAttribute('disabled', true);
+cadastrar.innerText = "Bloqueado"
 
-const cadastroObjeto = {
-    nome: "",
-    sobrenome: "",
-    apelido: "",
-    email: "",
-    password: "",
-}
+//validacao da senha  utilizando metodo match//
+//segunda opcao de validacao de senha
 
-//let identificadorValidacao = document.getElementById('identificadorValidacao');
-Nome.addEventListener('blur', function() {
- 
-let nomeCadastro = document.getElementById('nomeCadastro');
-      if (Nome.value != "") {
-        //nome tem informação
-        nomeCadastro.innerText = ""
-        Nome.style.border = ``
-        nomeEValido = true;
-    } else {
-        //nome está vazio
-        nomeCadastro.innerText = "Campo obrigatório"
-        nomeCadastro.style.color = "#E01E1E"
-        nomeCadastro.style.fontSize = "8"
-        nomeCadastro.style.fontWeight = "bold"
-        Nome.style.border = `1px solid #E01E1E`
-        nomeEValido = false;
-    }
-    validaTelaDeCadastro();
-});
+senha.addEventListener('blur', function() {
+    let passwordValidacao = document.getElementById('passwordValidacao');
+    //Incluimos o elemento  <Small> do html e capturamos o mesmo
 
-Sobrenome.addEventListener('blur', function() {
-
-let sobrenomeCadastro = document.getElementById('sobrenomeCadastro');
-
-    if (Sobrenome.value != "") {
-        //sobrenome tem informação
-        sobrenomeCadastro.innerText = ""
-        Sobrenome.style.border = ``
-        sobrenomeEValido = true;
-    } else {
-        //sobrenome está vazio
-        sobrenomeCadastro.innerText = "Campo obrigatório"
-        sobrenomeCadastro.style.color = "#E01E1E"
-        sobrenomeCadastro.style.fontSize = "8"
-        sobrenomeCadastro.style.fontWeight = "bold"
-        Sobrenome.style.border = `1px solid #E01E1E`
-        sobrenomeEValido = false;
-    }
-    validaTelaDeCadastro();
-});
-
-apelido.addEventListener('blur', function() {
-
-let apelidoCadastro = document.getElementById('apelidoCadastro');
-
-    if (apelido.value != "") {
-        //apelido tem informação
-        apelidoCadastro.innerText = ""
-        apelido.style.border = ``
-        apelidoEValido = true;
-    } else {
-        //apelido está vazio
-        apelidoCadastro.innerText = "Campo obrigatório"
-        apelidoCadastro.style.color = "#E01E1E"
-        apelidoCadastro.style.fontSize = "8"
-        apelidoCadastro.style.fontWeight = "bold"
-        apelido.style.border = `1px solid #E01E1E`
-        apelidoEValido = false;
-    }
-    validaTelaDeCadastro();
-});
-
-email.addEventListener('blur', function() {
-
-let emailCadastro = document.getElementById('emailCadastro');
-
-    if (email.value != "") {
-        //email tem informação
-        emailCadastro.innerText = ""
-        email.style.border = ``
-        emailEValido = true;
-    } else {
-        //email está vazio
-        emailCadastro.innerText = "Campo obrigatório"
-        emailCadastro.style.color = "#E01E1E"
-        emailCadastro.style.fontSize = "8"
-        emailCadastro.style.fontWeight = "bold"
-        email.style.border = `1px solid #E01E1E`
-        emailEValido = false;
-    }
-
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)) {
-        emailCadastro.innerText = " ";
-        email.style.backgroundColor = "blue";
-        emailEValido = true;
+    if ((/(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[!@#$%^&*()-+]).{8,}$/.test(senha.value))) {
+        passwordValidacao.innerText = " ";
+        senha.style.backgroundColor = "green";
+        passwordCadastroValido = true;
     } else {
         /*Email esta com preenchimento incorreto conforme padrão Regex*/
-        emailCadastro.innerText = "O Email não é Válido";
-        emailCadastro.style.color = "#E05E";
-        emailCadastro.style.fontSize = "10";
-        emailCadastro.style.fontWeight = "italic";
-        email.style.border = `2 px solid #D01F8E`;
-        emailEValido = false;
+        passwordValidacao.innerText = "Senha obrigatória.Usuário deve digitar no mínimo um número, uma letra Maiuscula, uma letra Minúscula e um Caracter especial"
+        senha.style.backgroundColor = "green";
+        passwordValidacao.style.color = "#E05E"
+        passwordValidacao.style.fontSize = "12"
+        passwordValidacao.style.fontWeight = "italic"
+        passwordCadastroValido = false;
     }
     validaTelaDeCadastro();
 });
 
-password.addEventListener('blur', function() {
+repetirSenha.addEventListener('blur', function() {
+    //Capturando o elemento <Small> do html
+    let repetirPasswordValidar = document.getElementById('repetirPasswordValidacao');
 
-let passwordCadastro = document.getElementById('passwordCadastro');
-
-if (password.value != "" && password.value.lenght <= 8) {
-    //Senha tem informação
-    botaoCadastro.setAttribute('disable', true);
-    passwordCadastro.innerText = "";
-    password.style.border = "blue";
-    passwordEValido = true;
-} else {
-    //senha está vazio
-    botaoCadastro.removeAttribute('disable');
-    passwordCadastro.innerText = "Campo obrigatório";
-    passwordCadastro.style.color = "#E01E1E";
-    passwordCadastro.style.fontSize = "8";
-    passwordCadastro.style.fontWeight = "bold"
-    password.style.border = `1 px solid# E01E1E `
-    passwordEValido = false;
-}
-    validaTelaDeCadastro();
-});
-
-repetirPassword.addEventListener('blur', function() {
-
- let repetirPasswordCadastro = document.getElementById('repetirPasswordCadastro');
-
-    if (repetirpassword.value == password.value) {
-        //repetir senha tem informação igual a senha
-        repetirPasswordCadastro.innerText = ""
-        repetirPassword.style.border = ``
-        repetirPasswordEValido = true;
+    //verificando se as duas senhas digitadas são iguais
+    if (senha.value == repetirSenha.value) {
+        repetirPasswordValidar.innerText = "Senhas digitadas identicas , prosseguir no cadastramento";
+        repetirPasswordValido = true;
+        //caso as senhas sejam diferentes apagamos os campos preenchidos
     } else {
-        //repetir senha está vazio
-        repetirPasswordCadastro.innerText = "A senha digitada deve ser igual à anterior"
-        repetirPasswordCadastro.style.color = "#E01E1E"
-        repetirPasswordCadastro.style.fontSize = "8"
-        repetirPasswordCadastro.style.fontWeight = "bold"
-        repetirPassword.style.border = `1px solid #E01E1E`
-        repetirPasswordEValido = false;
+        repetirPasswordValidar.innerText = "Senhas digitadas não são identicas, refazer a digitação por gentileza";
+        repetirPasswordValido = false;
     }
     validaTelaDeCadastro();
-
 });
+
+
+
+nome.addEventListener('blur', function() { //Capturando o elemento <Small> do html
+    let nomeValidar = document.getElementById('nomeValidacao');
+    if (nome.value != "") {
+        //nome tem informação
+        nomeValidar.innerText = "";
+        nomeValidar.style.border = ``;
+        nomeValido = true;
+    } else {
+        //nome está vazio
+        nomeValidar.innerText = "Campo obrigatório";
+        nomeValidar.style.color = "#E01E1E";
+        nomeValidar.style.fontSize = "8";
+        nomeValidar.style.fontWeight = "bold";
+        nomeValidar.style.border = `1px solid #E01E1E`;
+        nomeValido = false;
+    }
+    validaTelaDeCadastro();
+});
+
+
+sobrenome.addEventListener('blur', function() {
+    let sobrenomeValidar = document.getElementById('sobrenomeValidacao');
+    if (sobrenome.value != "") {
+        //nome tem informação
+        sobrenomeValidar.innerText = "";
+        sobrenomeValidar.style.border = ``;
+        sobrenomeValido = true;
+    } else {
+        //sobrenome está vazio
+        sobrenomeValidar.innerText = "Campo obrigatório";
+        sobrenomeValidar.style.color = "#E01E1E";
+        sobrenomeValidar.style.fontSize = "8";
+        sobrenomeValidar.style.fontWeight = "bold";
+        sobrenomeValidar.style.border = `1px solid #E01E1E`;
+        sobrenomeValido = false;
+    }
+    validaTelaDeCadastro();
+});
+//Ao clicar e interagir com o campo de "email" no formulário
+
+email.addEventListener('blur', function() {
+    let emailValidar = document.getElementById('emailValidacao');
+    /* Incluir metodo regex verificar caracteres do email se são validos. Email tem caracteres especificos e preenchidos corretamente*/
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)) {
+        emailValidar.innerText = " ";
+        emailValidar.style.backgroundColor = "green";
+        emailCadastroValido = true;
+    } else {
+        /*Email esta com preenchimento incorreto conforme padrão Regex*/
+        emailValidar.innerText = "O Email não é Válido";
+        emailValidar.style.color = "#E05E";
+        emailValidar.style.fontSize = "10";
+        emailValidar.style.fontWeight = "italic";
+        email.style.border = `2 px solid #D01F8E`;
+        emailCadastroValido = false;
+    }
+
+    validaTelaDeCadastro();
+});
+
+
 
 function validaTelaDeCadastro() {
-    if (nomeEValido && sobrenomeEValido && apelidoEValido && emailCadastroEValido && passwordCadastroEvalido) {
-        botaoCadastro.removeAttribute('disabled')
-        botaoCadastro.innerText = "Criar Conta"
+    if (nomeValido && sobrenomeValido && emailCadastroValido && passwordCadastroValido && repetirPasswordValido) {
+        cadastrar.removeAttribute('disabled')
+        cadastrar.innerText = "Cadastrar"
         return true
     } else {
-        botaoCadastro.setAttribute('disabled', true);
-        botaoCadastro.innerText = "Bloqueado"
+        cadastrar.setAttribute('disabled', true);
+        cadastrar.innerText = "Bloqueado"
         return false
     }
-
 }
+
+const cadastroObjeto = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: ""
+}
+
+let nomeCadastroNormalizado;
+let sobrenomeCadastroNormalizado;
+let emailCadastroNormalizado;
+
+cadastrar.addEventListener('click', evento => {
+    evento.preventDefault();
+    if (validaTelaDeCadastro()) {
+        nomeCadastroNormalizado = retiraEspacosDeUmValorInformado(inputName.value);
+        sobrenomeCadastroNormalizado = retiraEspacosDeUmValorInformado(inputLastName.value);
+        emailCadastroNormalizado = retiraEspacosDeUmValorInformado(inputEmail.value);
+        nomeCadastroNormalizado = converteValorRecebidoEmMinusculo(nomeCadastroNormalizado);
+        emailCadastroNormalizado = converteValorRecebidoEmMinusculo(emailCadastroNormalizado);
+        sobrenomeCadastroNormalizado = converteValorRecebidoEmMinusculo(sobrenomeCadastroNormalizado);
+        cadastroObjeto.firstname = nomeCadastroNormalizado;
+        cadastroObjeto.lastname = sobrenomeCadastroNormalizado;
+        cadastroObjeto.email = emailCadastroNormalizado;
+        cadastroObjeto.password = senha.value;
+        let Users = JSON.stringify(cadastroObjeto);
+
+        /*INCLUIR API COM UM users - cadastrar Novo  recurso*/
+        //incluindo validações na APi 
+        //Code: 200 - Operação Sucesso;
+        //400 - Usuário já existe;
+        //500 - Error del servidor //
+
+        let urlUsers = ("https://ctd-todo-api.herokuapp.com/v1/users");
+        let configDaRequ = {
+            method: "POST", // enviando
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: Users
+        }
+        fetch(urlUsers, configDaRequ)
+            .then(result => {
+                if (result.status == 201 || result.status == 200) {
+                    return result.json();
+                } else {
+                    throw result;
+                }
+            }).then(function(resposta) {
+                userSucess(resposta.jwt);
+                console.log(resposta.jwt);
+            })
+            .catch(errou => {
+                userErro(errou);
+                console.log(errou)
+            })
+    };
+});
